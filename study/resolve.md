@@ -2,7 +2,7 @@
 #### 「約束を果たしたよ！」を伝える関数  
 Promiseの作り方  
 ```next.js
-javascriptconst myPromise = new Promise((resolve, reject) => {
+const myPromise = new Promise((resolve, reject) => {
   // 何かの処理をする
   
   // 成功した場合
@@ -16,7 +16,7 @@ javascriptconst myPromise = new Promise((resolve, reject) => {
 ### 🍳 料理の例で理解
 料理を作るPromise
 ```next.js
-tfunction cookCurry() {
+function cookCurry() {
   return new Promise((resolve, reject) => {
     console.log('カレーを作り始めます...');
     
