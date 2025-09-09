@@ -16,7 +16,7 @@ javascriptconst myPromise = new Promise((resolve, reject) => {
 ### 🍳 料理の例で理解
 料理を作るPromise
 ```next.js
-javascriptfunction cookCurry() {
+tfunction cookCurry() {
   return new Promise((resolve, reject) => {
     console.log('カレーを作り始めます...');
     
@@ -44,7 +44,7 @@ try {
 ### 📞 電話の約束で例えると
 友達との約束
 ```next.js
-javascriptfunction callFriend() {
+function callFriend() {
   return new Promise((resolve, reject) => {
     console.log('友達に電話をかけています...');
     
@@ -63,8 +63,8 @@ javascriptfunction callFriend() {
 
 ### 🌐 実際のAPI例
 fetch() の内部的な仕組み  
-javascript// fetch() は内部的にこんな感じ  
 ```next.js
+// fetch() は内部的にこんな感じ  
 function myFetch(url) {
   return new Promise((resolve, reject) => {
     // HTTP リクエストを送信
@@ -91,7 +91,7 @@ function myFetch(url) {
 ### 🎯 resolve と reject の使い分け
 resolve（成功時）
 ```next.js
-javascript// データが正常に取得できた
+// データが正常に取得できた
 resolve(data);
 
 // ファイルの読み込みが完了
@@ -103,7 +103,7 @@ resolve(result);
 
 reject（失敗時）
 ```next.js
-javascript// ネットワークエラー
+// ネットワークエラー
 reject('接続できませんでした');
 
 // データが見つからない
@@ -116,7 +116,7 @@ reject('アクセス権限がありません');
 ### 🧪 実際に作ってみよう
 簡単なタイマーPromise
 ```next.js
-javascriptfunction wait(seconds) {
+function wait(seconds) {
   return new Promise((resolve) => {
     console.log(`${seconds}秒待ちます...`);
     
