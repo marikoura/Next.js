@@ -86,7 +86,45 @@ const rice = await cookRice();  // 3秒待ってから結果を取得
 console.log(rice);  // 'ご飯が炊けました！'
 ```
 
-## Promise.allの仕組み
+### 別の書き方
+```typescript
+const fetchWithRetry = async (url: string, retries = 3) => {
+  for (let i = 0; i < retries; i++) {
+    try {
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}`);
+      }
+      return await response.json();
+    } catch (error) {
+      console.log(`試行 ${i + 1} 失敗:`, error);
+      if (i === retries - 1) throw error; // 最後の試行(i=2. retries-1は2)でエラー。エラーが投げられるとその時点で離脱
+      await new Promise(resolve => setTimeout(resolve, 1000)); // エラーにならない場合1秒待機
+    }
+  }
+};
+```
+流れ
+1回目失敗（i = 0）:
+- エラーキャッチ
+- 「試行 1 失敗」をログ出力
+- i === 2？ → No（まだ最後じゃない）
+- 1秒待機してからもう一度
+
+2回目失敗（i = 1）:
+- エラーキャッチ
+- 「試行 2 失敗」をログ出力
+- i === 2？ → No（まだ最後じゃない）
+- 1秒待機してからもう一度
+
+3回目失敗（i = 2）:
+- エラーキャッチ
+- 「試行 3 失敗」をログ出力
+- i === 2？ → Yes（最後の試行）
+- エラーを投げて諦める（1秒待機しない）
+
+
+## 🤔Promise.allの仕組み
 
 普通のやり方（順番に実行）
 ```typescript
@@ -103,6 +141,7 @@ const [userResponse, postsResponse] = await Promise.all([
   fetch('/posts?userId=1')  // 1秒かかる（同時にスタート）
 ]);
 ```
+
 
 ### Promise.allの書き方パターン
 ```node.js
