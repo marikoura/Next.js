@@ -8,11 +8,11 @@ console.log(result);   // 8
 
 時間のかかる処理（非同期処理）
 ```next.js
-javascriptconst promise = fetch('/api/posts');  // すぐには結果が出ない
+const promise = fetch('/api/posts');  // すぐには結果が出ない
 console.log(promise);  // Promise { <pending> }  ← これがPromiseオブジェクト
 ```
 
-#### 🕐 Promise: 3つの状態がある
+### 🕐 Promise: 3つの状態がある
 ```next.js
 // 1. pending（処理中）
 const promise = fetch('/api/posts');
@@ -25,7 +25,22 @@ console.log(promise);  // Promise { <pending> }
 // エラーが発生した状態
 ```
 
-#### 🎁 Promise の中身を取り出す方法
+### Promise の作成
+```next.js
+const myPromise = new Promise((resolve, reject) => {
+    // 何らかの非同期処理
+
+    if (/* 成功条件 */) {
+        resolve("成功時の結果");
+    } else {
+        reject("エラーメッセージ");
+    }
+});
+```
+- resolve 関数は、非同期処理が成功したときに呼び出され、Promise を成功状態にする。
+- reject 関数は、非同期処理が失敗したときに呼び出され、Promise を失敗状態にする。
+
+### 🎁 Promise の中身を取り出す方法
 1. await を使う方法
 ```next.js
 // ❌ Promise オブジェクトのまま
@@ -58,6 +73,34 @@ console.log(orderPromise);  // Promise { <pending> } "調理中..."
 const curry = await orderPromise;
 console.log(curry);  // "できたてのカレーライス"
 ```
+
+### 別のシンプルな例
+お友達から手紙をもらうという状況を想像。  
+お友達が手紙を書くのに時間がかかるので、「待ってね」と言われます。  
+あなたは待つことにし、その間に他のことをします。  
+手紙が届いたら、それを読みます。  
+このシナリオをコードで表現すると、以下のようになります。  
+```next.js
+// 1. 「手紙を書く」のをシミュレートする非同期関数
+async function writeLetter(): Promise<string> {
+    return new Promise(resolve => {
+        setTimeout(() => {
+            resolve("手紙の内容");
+        }, 2000); // 2秒後に「手紙の内容」という結果を返します。
+    });
+}
+
+// 2. 手紙が届くのを待って、それを読む関数
+async function readLetter() {
+    console.log("手紙を待っています...");
+    let letter = await writeLetter(); // 手紙が届くのを待ちます。
+    console.log("手紙が届きました:", letter);
+}
+
+// この関数を実行してみる
+readLetter();
+```
+このコードを実行すると、最初に "手紙を待っています..." と表示され、2秒後に "手紙が届きました: 手紙の内容" と表示されます。
 
 #### 🌐 なぜ request.json() がPromise？
 JSONの解析は時間がかかる
